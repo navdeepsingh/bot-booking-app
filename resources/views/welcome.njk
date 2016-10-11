@@ -27,9 +27,40 @@
                 <div class="row">
                     <div class="col-lg-12">
                         <h1>Booking Calendar</h1>
-                        <p>This template has a responsive menu toggling system. The menu will appear collapsed on smaller screens, and will appear non-collapsed on larger screens. When toggled using the button below, the menu will appear/disappear. On small screens, the page content will be pushed off canvas.</p>
-                        <p>Make sure to keep all page content within the <code>#page-content-wrapper</code>.</p>
-                        <a href="#menu-toggle" class="btn btn-default" id="menu-toggle">Toggle Menu</a>
+                        <div id="full-clndr" class="clearfix">
+          <script type="text/template" id="full-clndr-template">
+            <div class="clndr-controls">
+              <div class="clndr-previous-button">&lt;</div>
+              <div class="clndr-next-button">&gt;</div>
+              <div class="current-month"><%= month %> <%= year %></div>
+
+            </div>
+            <div class="clndr-grid">
+              <div class="days-of-the-week clearfix">
+                <% _.each(daysOfTheWeek, function(day) { %>
+                  <div class="header-day"><%= day %></div>
+                <% }); %>
+              </div>
+              <div class="days">
+                <% _.each(days, function(day) { %>
+                  <div class="<%= day.classes %>" id="<%= day.id %>"><span class="day-number"><%= day.day %></span></div>
+                <% }); %>
+              </div>
+            </div>
+            <div class="event-listing">
+              <div class="event-listing-title">EVENTS THIS MONTH</div>
+              <% _.each(eventsThisMonth, function(event) { %>
+                  <div class="event-item">
+                    <div class="event-item-name">
+                      <small><%= event.date %></small><br>
+                      <%= event.title %> @ <%= event.location %>
+                    </div>
+                  </div>
+                <% }); %>
+            </div>
+          </script>
+        </div>
+
                     </div>
                 </div>
             </div>
@@ -40,6 +71,6 @@
   </div>
 </div>
 
-
+{% set events = events %}
 
 {% endblock %}

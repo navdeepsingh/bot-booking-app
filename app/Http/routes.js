@@ -28,4 +28,5 @@ Route.group('auth-routes', () => {
   Route.get('/', 'BookingController.index')
   Route.resource('users', 'UserController')
   Route.resource('rooms', 'RoomController')
+  Route.get('/get_meetings', 'BookingController.getMeetings')
 }).middleware('auth')

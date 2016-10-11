@@ -26,7 +26,29 @@ $(document).ready(() => {
             })
         }
         e.preventDefault()
-
-
     })
+
+    $.ajax({
+        url : '/get_meetings',
+        type : 'GET',
+        success : (response)=>{
+            if ( response.result )
+                clndr = $('#full-clndr').clndr({
+                template: $('#full-clndr-template').html(),
+                events: response.result,
+                forceSixRows: true,
+                clickEvents: {
+                    click: function(target) {
+                      console.log(target);
+                    },
+                    onMonthChange: function(month) {
+                      console.log('you just went to ' + month.format('MMMM, YYYY'));
+                    }
+                }
+            });
+        }
+    })
+
+
+
 })

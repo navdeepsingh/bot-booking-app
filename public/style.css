@@ -103,3 +103,114 @@ body {
 .__footer li a:hover {
   opacity: 1;
 }
+
+/* calendar styles */
+#full-clndr
+{
+  width: 100%;
+  background-color: #ebebeb;
+  font-weight: 700;
+  -moz-box-shadow: 0px 4px 0 darken(#414141, 5%);
+  -webkit-box-shadow: 0px 4px 0 darken(#414141, 5%);
+  box-shadow: 0px 4px 0 darken(#414141, 5%);
+  margin-bottom: 20px;
+}
+#full-clndr .clndr-controls{
+  padding: 14px;
+  background-color: #414141;
+  color: white;
+  text-align: center;
+}
+
+#full-clndr .clndr-controls .clndr-previous-button {
+  float: left;
+  text-align: left;
+}
+
+#full-clndr .clndr-controls .clndr-next-button {
+  float: right;
+  text-align: right;
+}
+
+#full-clndr .clndr-controls .clndr-previous-button, .clndr-next-button {
+  width: 30px;
+  cursor: pointer;
+}
+#full-clndr .clndr-controls .clndr-previous-button:hover, .clndr-next-button:hover {
+  opacity: 0.5;
+}
+
+#full-clndr .clndr-grid {
+  float: left;
+  width: 65%;
+  border-right: 2px solid white;
+}
+
+#full-clndr .clndr-grid .days-of-the-week {
+  width: 100%;
+  background-color: #3883a3;
+}
+
+#full-clndr .clndr-grid .days-of-the-week .header-day {
+  float: left;
+  width: 14.2857%;
+  padding: 14px;
+  text-align: center;
+  color: white;
+}
+
+#full-clndr .clndr-grid .days {
+      width: 100%;
+}
+
+#full-clndr .clndr-grid .days .day, .empty {
+  float: left;
+  width: 14.2857%;
+  height: 66px;
+  padding: 24px 0;
+
+  text-align: center;
+  color: #4f4f4f;
+  background-color: #ebebeb;
+  border-bottom: 2px solid white;
+
+  background-image: url('./assets/triangle.svg');
+  background-size: cover;
+  background-position: center;
+}
+
+ #full-clndr .clndr-grid .days .event .day-number {
+  padding-bottom: 4px;
+  border-bottom: 2px solid #3883a3;
+}
+#full-clndr .clndr-grid .days .adjacent-month .day-number {
+  opacity: 0.3;
+}
+
+#full-clndr .clndr-grid .days .today {
+  background-color: white;
+  background-image: none;
+}
+
+#full-clndr .event-listing {
+    float: left;
+    width: 35%;
+}
+#full-clndr .event-listing .event-listing-title{
+  padding: 14px;
+  background-color: #71bbd2;
+  text-align: center;
+  color: white;
+  letter-spacing: 1px;
+}
+
+#full-clndr .event-listing .event-item{
+  padding: 14px;
+  color: #4f4f4f;
+}
+
+#full-clndr .event-listing .event-item {
+{
+  font-weight: 400;
+}
+
