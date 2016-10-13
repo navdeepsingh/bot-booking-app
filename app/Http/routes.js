@@ -30,4 +30,5 @@ Route.group('auth-routes', () => {
   Route.resource('users', 'UserController')
   Route.resource('rooms', 'RoomController')
   Route.get('/get_meetings/:id?', 'BookingController.getMeetings')
+  Route.post('/booking', 'BookingController.store')
 }).middleware('auth')

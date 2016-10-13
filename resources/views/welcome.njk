@@ -12,7 +12,7 @@
             <label for="selectRoom">Select Room</label>
             <select name="selectRoom" class="form-control">
               {% for room in rooms %}
-              <option {% if roomId == room.id %} selected {% endif %} value="{{ room.id }}">{{ room.name }}</option>
+              <option {% if selectedRoom.id == room.id %} selected {% endif %} value="{{ room.id }}">{{ room.name }}</option>
               {% endfor %}
             </select>
           </div>
@@ -31,37 +31,36 @@
 
                         </div>
                         <script type="text/template" id="full-clndr-template">
-            <div class="clndr-controls">
-              <div class="clndr-previous-button">&lt;</div>
-              <div class="clndr-next-button">&gt;</div>
-              <div class="current-month"><%= month %> <%= year %></div>
+                          <div class="clndr-controls">
+                            <div class="clndr-previous-button">&lt;</div>
+                            <div class="clndr-next-button">&gt;</div>
+                            <div class="current-month"><%= month %> <%= year %></div>
 
-            </div>
-            <div class="clndr-grid">
-              <div class="days-of-the-week clearfix">
-                <% _.each(daysOfTheWeek, function(day) { %>
-                  <div class="header-day"><%= day %></div>
-                <% }); %>
-              </div>
-              <div class="days">
-                <% _.each(days, function(day) { %>
-                  <div class="<%= day.classes %>" id="<%= day.id %>"><span class="day-number"><%= day.day %></span></div>
-                <% }); %>
-              </div>
-            </div>
-            <div class="event-listing">
-              <div class="event-listing-title">EVENTS THIS MONTH</div>
-              <% _.each(eventsThisMonth, function(event) { %>
-                  <div class="event-item">
-                    <div class="event-item-name">
-                      <small><%= event.date %></small><br>
-                      <%= event.title %> @ <%= event.location %>
-                    </div>
-                  </div>
-                <% }); %>
-            </div>
-          </script>
-
+                          </div>
+                          <div class="clndr-grid">
+                            <div class="days-of-the-week clearfix">
+                              <% _.each(daysOfTheWeek, function(day) { %>
+                                <div class="header-day"><%= day %></div>
+                              <% }); %>
+                            </div>
+                            <div class="days">
+                              <% _.each(days, function(day) { %>
+                                <div class="<%= day.classes %>" id="<%= day.id %>"><span class="day-number"><%= day.day %></span></div>
+                              <% }); %>
+                            </div>
+                          </div>
+                          <div class="event-listing">
+                            <div class="event-listing-title">EVENTS THIS MONTH</div>
+                            <% _.each(eventsThisMonth, function(event) { %>
+                                <div class="event-item">
+                                  <div class="event-item-name">
+                                    <small><%= moment(event.date).format('ll') %></small><br>
+                                    <%= event.title %> @ {{ selectedRoom.name }}
+                                  </div>
+                                </div>
+                              <% }); %>
+                          </div>
+                        </script>
                     </div>
                 </div>
             </div>
@@ -72,6 +71,37 @@
   </div>
 </div>
 
-{% set events = events %}
+
+<div class="modal fade" id="bookingModal" tabindex="-1" role="dialog">
+  <div class="modal-dialog" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        <h4 class="modal-title">Modal title</h4>
+      </div>
+      <div class="modal-body">
+        <form class="form-horizontal" role="form" id="bookingForm" method="POST" action="/booking">
+
+          <div class="form-group">
+              <label for="title" class="col-md-4 control-label">Title</label>
+
+              <div class="col-md-6">
+                  <input id="title" type="text" class="form-control" name="title" required value="">
+              </div>
+          </div>
+
+          {{ form.hidden('room_id', selectedRoom.id) }}
+          {{ form.hidden('date') }}
+
+          {{ csrfField }}
+
+      </form>
+      </div>
+      <div class="modal-footer">
+         <a href="#" id="bookingSubmit" class="btn btn-success success">Book</a>
+      </div>
+    </div><!-- /.modal-content -->
+  </div><!-- /.modal-dialog -->
+</div><!-- /.modal -->
 
 {% endblock %}
