@@ -28,25 +28,32 @@ $(document).ready(() => {
         e.preventDefault()
     })
 
+    let url = window.location.href;
+    let id = url.substring(url.lastIndexOf('/') + 1);
+
     $.ajax({
-        url : '/get_meetings',
+        url : `/get_meetings/${id}`,
         type : 'GET',
         success : (response)=>{
             if ( response.result )
                 clndr = $('#full-clndr').clndr({
-                template: $('#full-clndr-template').html(),
-                events: response.result,
-                forceSixRows: true,
-                clickEvents: {
-                    click: function(target) {
-                      console.log(target);
-                    },
-                    onMonthChange: function(month) {
-                      console.log('you just went to ' + month.format('MMMM, YYYY'));
+                    template: $('#full-clndr-template').html(),
+                    events: response.result,
+                    forceSixRows: true,
+                    clickEvents: {
+                        click: function(target) {
+                          console.log(target);
+                        },
+                        onMonthChange: function(month) {
+                          console.log('you just went to ' + month.format('MMMM, YYYY'));
+                        }
                     }
-                }
             });
         }
+    })
+
+    $('select[name=selectRoom]').change(function() {
+        window.location = `/room/${$(this).val()}`
     })
 
 

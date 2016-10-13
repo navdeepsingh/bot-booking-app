@@ -14,10 +14,21 @@
 
 const Factory = use('Factory')
 
+
 class DatabaseSeeder {
 
   * run () {
-    // yield Factory.model('App/Model/User').create(5)
+      const users = yield Factory.model('App/Model/User').create(2)
+
+      const User = use('App/Model/User')
+      const user = yield User.find(1)
+
+      const rooms = yield Factory.model('App/Model/Room').create(2)
+
+      for (let i = 1; i <= 4; i++) {
+        const meeting = Factory.model('App/Model/Meeting').make()
+        yield user.meetings().save(meeting)
+      }
   }
 
 }

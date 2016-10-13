@@ -26,7 +26,8 @@ Route.post('register', 'RegisterController.doRegister')
 
 Route.group('auth-routes', () => {
   Route.get('/', 'BookingController.index')
+  Route.get('/room/:id', 'BookingController.index')
   Route.resource('users', 'UserController')
   Route.resource('rooms', 'RoomController')
-  Route.get('/get_meetings', 'BookingController.getMeetings')
+  Route.get('/get_meetings/:id?', 'BookingController.getMeetings')
 }).middleware('auth')

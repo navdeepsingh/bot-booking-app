@@ -10,9 +10,9 @@
         <div id="sidebar-wrapper">
           <div class="form-group">
             <label for="selectRoom">Select Room</label>
-            <select class="form-control">
+            <select name="selectRoom" class="form-control">
               {% for room in rooms %}
-              <option value="{{ room.id }}">{{ room.name }}</option>
+              <option {% if roomId == room.id %} selected {% endif %} value="{{ room.id }}">{{ room.name }}</option>
               {% endfor %}
             </select>
           </div>
@@ -28,7 +28,9 @@
                     <div class="col-lg-12">
                         <h1>Booking Calendar</h1>
                         <div id="full-clndr" class="clearfix">
-          <script type="text/template" id="full-clndr-template">
+
+                        </div>
+                        <script type="text/template" id="full-clndr-template">
             <div class="clndr-controls">
               <div class="clndr-previous-button">&lt;</div>
               <div class="clndr-next-button">&gt;</div>
@@ -59,7 +61,6 @@
                 <% }); %>
             </div>
           </script>
-        </div>
 
                     </div>
                 </div>

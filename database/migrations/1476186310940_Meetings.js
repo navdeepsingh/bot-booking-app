@@ -9,6 +9,8 @@ class MeetingsSchema extends Schema {
       table.increments()
       table.integer('room_id').unsigned()
       table.foreign('room_id').references('rooms.id')
+      table.integer('user_id').unsigned()
+      table.foreign('user_id').references('users.id')
       table.date('date')
       table.string('title')
       table.string('location')

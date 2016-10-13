@@ -12,6 +12,7 @@
 */
 
 const Factory = use('Factory')
+const moment = use('moment')
 
 /*
 |--------------------------------------------------------------------------
@@ -22,9 +23,25 @@ const Factory = use('Factory')
 |
 */
 Factory.blueprint('App/Model/User', (fake) => {
+  let password = 'test123'
   return {
     username: fake.username(),
     email: fake.email(),
-    password: fake.password()
+    password: password
+  }
+})
+
+Factory.blueprint('App/Model/Room', (fake) => {
+  return {
+    name: `${fake.capitalize(fake.word())} Room`
+  }
+})
+
+Factory.blueprint('App/Model/Meeting', (fake) => {
+  return {
+    room_id : '1',
+    date: moment(fake.date({string: true, american: false, year : 2016, month : 9})).format('YYYY-MM-DD'),
+    title: fake.sentence({words: 3}),
+    location: fake.address()
   }
 })
