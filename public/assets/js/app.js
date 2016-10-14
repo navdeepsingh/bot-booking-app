@@ -63,6 +63,18 @@ $(document).ready(() => {
                           let date = target.date._i
                           $('.modal-title').html(selectedDate)
                           $('input[name=date]').val(date)
+                          $('input[name=title]').val('')
+                          $('#bookingSubmit').html('Book')
+
+                          if (target.events.length > 0) {
+                             $('.modal-title').html(`${selectedDate} : Edit`)
+                             $('#bookingSubmit').html('Update')
+                             $('form').attr('method','PUT')
+                            _.each(target.events, function(events){
+                                $('form').attr('action',`/booking/${events.id}`)
+                                $('input[name=title]').val(events.title)
+                            })
+                          }
                           $('#bookingModal').modal('show')
                         },
                         onMonthChange: function(month) {
