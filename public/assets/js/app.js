@@ -6,9 +6,25 @@ $(document).ready(() => {
             type : $('form').attr('method'),
             data : $('form').serialize(),
             success : (response)=>{
-                if ( response.result )
+                if ( response.result ) {
                     if (response.redirect !== 'undefined')
                         window.location = response.redirect
+                } else {
+                    // Handle errors
+                    _.each(response, function(errors){
+                        $(`<span class="label label-danger">${errors.message}</span>`).insertAfter(`#${errors.field}`)
+                    })
+                    setTimeout(function(){
+                        $('.label-danger').fadeOut(250);
+                    }, 2000);
+                }
+            },
+            error: function(xhr, status, error) {
+                var err = eval("(" + xhr.responseText + ")");
+                $('form').prepend(`<div class="alert alert-danger">${err.error}</div>`)
+                setTimeout(function(){
+                        $('.alert-danger').fadeOut(250);
+                }, 4000);
             }
         })
     })

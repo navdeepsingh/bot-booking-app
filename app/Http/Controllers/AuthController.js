@@ -12,20 +12,24 @@ class AuthController {
  * login(request, response) {
       const email = request.input('email')
       const password = request.input('password')
+      //const login = yield request.auth.attempt(email, password)
 
-      const loginMessage = {
-          success: 'Logged-in Successfully!',
-          error: 'Invalid Credentials'
+      try {
+        yield request.auth.validate(email, password)
+      } catch (e) {
+        response.unauthorized({error: e.message})
       }
 
-      // Attempt to login with email and password
-      const authCheck = yield request.auth.attempt(email, password)
-      if (authCheck) {
-          return response.json({result : true, redirect : '/'})
+      const login = yield request.auth.attempt(email, password)
+
+      if (login) {
+        response.json({result : true, redirect : '/'})
+        return
       }
 
       //yield response.sendView('login', { error: loginMessage.error })
-      return response.json({result : false, error : loginMessage.error})
+      //return response.json({result : false, error : 'Invalid credentails'})
+     // response.unauthorized('Invalid credentails')
   }
 
   * logout(request, response) {

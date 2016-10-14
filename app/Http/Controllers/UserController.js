@@ -1,6 +1,7 @@
 'use strict'
 
 const User = use('App/Model/User')
+const Hash = use('Hash')
 
 class UserController {
 
@@ -39,10 +40,11 @@ class UserController {
   * update(request, response) {
       const id = request.param('id')
       const user = yield User.find(id)
-      const data = request.except('_csrf')
+      const userData = request.except('_csrf')
 
-      user.username = data.name
-      user.email = data.email
+      user.username = userData.username
+      user.email = userData.email
+      user.password = yield Hash.make(userData.password)
       yield user.save()
 
       response.json({result : true, redirect : '/users'})

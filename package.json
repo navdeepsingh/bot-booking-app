@@ -18,9 +18,10 @@
     "adonis-framework": "^3.0.1",
     "adonis-lucid": "^3.0.3",
     "adonis-middleware": "^1.0.7",
+    "adonis-validation-provider": "^3.0.4",
+    "moment": "^2.14.1",
     "mysql": "^2.11.1",
-    "youch": "^1.0.1",
-    "moment": "^2.14.1"
+    "youch": "^1.0.1"
   },
   "autoload": {
     "App": "./app"
