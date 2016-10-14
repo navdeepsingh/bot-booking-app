@@ -3,6 +3,7 @@
 const Room = use('App/Model/Room')
 const Meeting = use('App/Model/Meeting')
 const moment = use('moment');
+const Database = use('Database')
 
 class BookingController {
 
@@ -19,13 +20,21 @@ class BookingController {
   }
 
   * getMeetings (request, response) {
-      const roomId = request.param('id')
+      let roomId = request.param('id')
       const roomFirst = yield Room.query().first()
-      let meetings = yield Meeting.query().where('room_id', roomFirst.id).orderBy('date', 'ASC')
 
-      if (roomId) {
-        meetings = yield Meeting.query().where('room_id', roomId).orderBy('date', 'ASC')
+      if (!roomId) {
+        roomId = roomFirst.id
       }
+
+      const meetings = yield Database
+                        .table('meetings')
+                        .select('users.username', 'meetings.id', 'meetings.room_id', 'meetings.date', 'meetings.title')
+                        .innerJoin('users', 'meetings.user_id', 'users.id')
+                        .where('room_id', roomId)
+                        .orderBy('date', 'ASC')
+
+      //const meetings = yield Meeting.query().where('room_id', roomId).orderBy('date', 'ASC')
 
       response.json( { result : meetings} )
   }
@@ -58,14 +67,22 @@ class BookingController {
       const meeting = yield Meeting.findBy('id', meetingId)
       const meetingData = request.except('_csrf')
 
-      meeting.user_id = user.id
-      meeting.room_id = meetingData.room
-      meeting.date = meetingData.date
-      meeting.title = meetingData.title
+      const meetingExist = yield Meeting.query().where({'room_id' : meetingData.room, 'date' : meetingData.date})
 
-      yield meeting.save()
+      console.log(meetingExist.length)
+      if (meetingExist.length == 0) {
+        meeting.user_id = user.id
+        meeting.room_id = meetingData.room
+        meeting.date = meetingData.date
+        meeting.title = meetingData.title
 
-      response.json({result : true, redirect : `/room/${meetingData.room}`})
+        yield meeting.save()
+
+        response.json({result : true, redirect : `/room/${meetingData.room}`})
+      } else {
+         response.unauthorized({error: `Room is already booked for this date ${moment(meetingData.date).format('ll')}`})
+      }
+
   }
 
 }

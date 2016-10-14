@@ -44,46 +44,51 @@ $(document).ready(() => {
         e.preventDefault()
     })
 
-    let url = window.location.href;
-    let id = url.substring(url.lastIndexOf('/') + 1);
+    if ( $('div.has-calendar').length > 0 ){
 
-    $.ajax({
-        url : `/get_meetings/${id}`,
-        type : 'GET',
-        success : (response)=>{
-            if ( response.result )
-                clndr = $('#full-clndr').clndr({
-                    template: $('#full-clndr-template').html(),
-                    events: response.result,
-                    forceSixRows: true,
-                    clickEvents: {
-                        click: function(target) {
-                          console.log(target);
-                          let selectedDate = moment(target.date._i).format('MMMM Do YYYY')
-                          let date = target.date._i
-                          $('.modal-title').html(selectedDate)
-                          $('input[name=date]').val(date)
-                          $('input[name=title]').val('')
-                          $('#bookingSubmit').html('Book')
+        let url = window.location.href;
+        let id = url.substring(url.lastIndexOf('/') + 1);
 
-                          if (target.events.length > 0) {
-                             $('.modal-title').html(`${selectedDate} : Edit`)
-                             $('#bookingSubmit').html('Update')
-                             $('form').attr('method','PUT')
-                            _.each(target.events, function(events){
-                                $('form').attr('action',`/booking/${events.id}`)
-                                $('input[name=title]').val(events.title)
-                            })
-                          }
-                          $('#bookingModal').modal('show')
-                        },
-                        onMonthChange: function(month) {
-                          console.log('you just went to ' + month.format('MMMM, YYYY'));
+        $.ajax({
+            url : `/get_meetings/${id}`,
+            type : 'GET',
+            success : (response)=>{
+                if ( response.result )
+                    clndr = $('#full-clndr').clndr({
+                        template: $('#full-clndr-template').html(),
+                        events: response.result,
+                        forceSixRows: true,
+                        clickEvents: {
+                            click: function(target) {
+                              console.log(target);
+                              let selectedDate = moment(target.date._i).format('MMMM Do YYYY')
+                              let date = target.date._i
+                              $('.modal-title').html(selectedDate)
+                              $('input[name=date]').val(date)
+                              $('input[name=title]').val('')
+                              $('#bookingSubmit').html('Book')
+                              $('.selectionRoom').hide()
+
+                              if (target.events.length > 0) {
+                                 $('.selectionRoom').show()
+                                 $('.modal-title').html(`${selectedDate} : Edit`)
+                                 $('#bookingSubmit').html('Update')
+                                 $('form').attr('method','PUT')
+                                _.each(target.events, function(events){
+                                    $('form').attr('action',`/booking/${events.id}`)
+                                    $('input[name=title]').val(events.title)
+                                })
+                              }
+                              $('#bookingModal').modal('show')
+                            },
+                            onMonthChange: function(month) {
+                              console.log('you just went to ' + month.format('MMMM, YYYY'));
+                            }
                         }
-                    }
-            });
-        }
-    })
+                });
+            }
+        })
+    }
 
     $('select[name=selectRoom]').change(function() {
         window.location = `/room/${$(this).val()}`

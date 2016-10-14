@@ -2,7 +2,7 @@
 
 {% block content %}
 
-<div class="container-fluid">
+<div class="container-fluid has-calendar">
   <div class="row">
 
       <div class="col-md-2">
@@ -54,7 +54,7 @@
                             <% _.each(eventsThisMonth, function(event) { %>
                                 <div class="event-item">
                                   <div class="event-item-name">
-                                    <small><%= moment(event.date).format('ll') %></small><br>
+                                    <%= moment(event.date).format('ll') %> <small><span><i>Hosted by : <%= event.username %></i></span></small><br>
                                     <%= event.title %> @ {{ selectedRoom.name }}
                                   </div>
                                 </div>
@@ -82,7 +82,7 @@
       <div class="modal-body">
         <form class="form-horizontal" role="form" id="bookingForm" method="POST" action="/booking">
 
-          <div class="form-group">
+          <div class="form-group selectionRoom">
               <label for="title" class="col-md-4 control-label">Room</label>
               <div class="col-md-6">
                   <select name="room" class="form-control">
