@@ -20,6 +20,7 @@ class BookingController {
   }
 
   * getMeetings (request, response) {
+      const loggedInUser = yield request.auth.getUser()
       let roomId = request.param('id')
       const roomFirst = yield Room.query().first()
 
@@ -29,14 +30,14 @@ class BookingController {
 
       const meetings = yield Database
                         .table('meetings')
-                        .select('users.username', 'meetings.id', 'meetings.room_id', 'meetings.date', 'meetings.title')
+                        .select('users.username', 'meetings.id', 'meetings.user_id', 'meetings.room_id', 'meetings.date', 'meetings.title')
                         .innerJoin('users', 'meetings.user_id', 'users.id')
                         .where('room_id', roomId)
                         .orderBy('date', 'ASC')
 
       //const meetings = yield Meeting.query().where('room_id', roomId).orderBy('date', 'ASC')
 
-      response.json( { result : meetings} )
+      response.json( { result : meetings, loggedInUser : loggedInUser} )
   }
 
   * store (request, response) {
@@ -70,7 +71,7 @@ class BookingController {
       const meetingExist = yield Meeting.query().where({'room_id' : meetingData.room, 'date' : meetingData.date})
 
       console.log(meetingExist.length)
-      if (meetingExist.length == 0) {
+      if (meetingExist.length == 0 || meetingData.room == meeting.room_id) {
         meeting.user_id = user.id
         meeting.room_id = meetingData.room
         meeting.date = meetingData.date

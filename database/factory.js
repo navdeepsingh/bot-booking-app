@@ -40,8 +40,10 @@ Factory.blueprint('App/Model/Room', (fake) => {
 Factory.blueprint('App/Model/Meeting', (fake) => {
   return {
     room_id : '1',
-    date: moment(fake.date({string: true, american: false, year : 2016, month : 9})).format('YYYY-MM-DD'),
+    date: moment(Date.now()).format('YYYY-MM-DD'),
+    start_time : '1000',
+    end_time : '1200',
     title: fake.sentence({words: 3}),
-    location: fake.address()
+    description: fake.sentence({words: 5})
   }
 })

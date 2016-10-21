@@ -32,7 +32,8 @@ class UserController {
       formMethod : 'PUT',
       formAction : `/users/${id}`,
       formTitle : 'Edit',
-      btnTitle : 'Update'
+      btnTitle : 'Update',
+      changePassword : false
     }
     yield response.sendView('register', formVars)
   }
@@ -44,6 +45,7 @@ class UserController {
 
       user.username = userData.username
       user.email = userData.email
+      if ( userData.password !== '')
       user.password = yield Hash.make(userData.password)
       yield user.save()
 

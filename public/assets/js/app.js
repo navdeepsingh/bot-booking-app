@@ -44,7 +44,7 @@ $(document).ready(() => {
         e.preventDefault()
     })
 
-    if ( $('div.has-calendar').length > 0 ){
+    if ( $('div.has-calendar').length > 0 ) {
 
         let url = window.location.href;
         let id = url.substring(url.lastIndexOf('/') + 1);
@@ -68,21 +68,48 @@ $(document).ready(() => {
                               $('input[name=title]').val('')
                               $('#bookingSubmit').html('Book')
                               $('.selectionRoom').hide()
+                              $('#bookingSubmit').show()
+                              $('.alert-warning').remove()
 
+                              // In case of already exist event, treat as Edit Form
                               if (target.events.length > 0) {
-                                 $('.selectionRoom').show()
+                                let eventsAll = ''
+                                $('.event-item', '.event-listing').remove()
+                                $('.event-listing-title', '.event-listing').text(`EVENTS ON ${moment(date).format('ll')}`)
+                                _.each(target.events, function(event){
+                                    $('form').attr('action',`/booking/${event.id}`)
+                                    $('input[name=title]').val(event.title)
+                                    eventsAll += `<div class="event-item">
+                                                    <div class="event-item-name">
+                                                        ${moment(event.date).format('ll')} <small> |
+                                                        <span><i>Hosted by : ${event.username}</i></span></small><br>
+                                                        ${event.title}
+                                                        <a href="" class="pull_right js-meeting-edit">
+                                                            <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
+                                                        </a>
+                                                    </div>
+                                                </div>`
+                                })
+                                $('.event-listing').append(eventsAll)
+                                 /*$('.selectionRoom').show()
                                  $('.modal-title').html(`${selectedDate} : Edit`)
                                  $('#bookingSubmit').html('Update')
-                                 $('form').attr('method','PUT')
-                                _.each(target.events, function(events){
-                                    $('form').attr('action',`/booking/${events.id}`)
-                                    $('input[name=title]').val(events.title)
-                                })
+                                 $('form').attr('method','PUT')*/
+                               /* if ( response.loggedInUser.id !== target.events[0].user_id ) {
+                                    $('form').prepend(`<div class="alert alert-warning"><strong>Warning!</strong> You can't edit other's booking. Thanks!</div>`)
+                                    $('#bookingSubmit').hide()
+                                }*/
+                              } else {
+                                $('#bookingModal').modal('show')
                               }
-                              $('#bookingModal').modal('show')
+
+
                             },
                             onMonthChange: function(month) {
                               console.log('you just went to ' + month.format('MMMM, YYYY'));
+                            },
+                            targets : {
+                                'eventShowButton' : 'js-show-meeting'
                             }
                         }
                 });
@@ -118,6 +145,26 @@ $(document).ready(() => {
 
         form.submit()
     })
+
+    $('#changePassword').click(function(){
+        let changePassword = false
+        const passwordElem = $('#password')
+        const passwordWrapper = $('#password').parents('.form-group')
+        if ( $(this).is(':checked') ) {
+            changePassword = true
+            passwordWrapper.show()
+            passwordElem.attr('required', true)
+        } else {
+            passwordWrapper.hide()
+            passwordElem.removeAttr('required')
+        }
+    })
+
+    $('.event-listing').on('click', 'a', function(e){
+        return false
+    })
+
+
 
 
 })

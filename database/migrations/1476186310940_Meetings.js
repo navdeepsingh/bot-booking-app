@@ -12,8 +12,10 @@ class MeetingsSchema extends Schema {
       table.integer('user_id').unsigned()
       table.foreign('user_id').references('users.id')
       table.date('date')
+      table.time('start_time')
+      table.time('end_time')
       table.string('title')
-      table.string('location')
+      table.string('description')
       table.timestamps()
     })
   }

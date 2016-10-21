@@ -25,10 +25,8 @@ class DatabaseSeeder {
 
       const rooms = yield Factory.model('App/Model/Room').create(2)
 
-      for (let i = 1; i <= 4; i++) {
-        const meeting = Factory.model('App/Model/Meeting').make()
-        yield user.meetings().save(meeting)
-      }
+      const meeting = Factory.model('App/Model/Meeting').make()
+      yield user.meetings().save(meeting)
   }
 
 }
