@@ -69,6 +69,7 @@ $(document).ready(() => {
                               $('#bookingSubmit').html('Book')
                               $('.selectionRoom').hide()
                               $('#bookingSubmit').show()
+                              $('form').attr('action','/booking')
                               $('.alert-warning').remove()
 
                               // In case of already exist event, treat as Edit Form
@@ -81,10 +82,10 @@ $(document).ready(() => {
                                     $('input[name=title]').val(event.title)
                                     eventsAll += `<div class="event-item">
                                                     <div class="event-item-name">
-                                                        ${moment(event.date).format('ll')} <small> |
+                                                        ${moment(event.date).format('ll')} from ${moment(event.start_time, 'hh:mm:ss').format("HH:mm a")} to ${moment(event.end_time, 'hh:mm:ss').format("HH:mm a")}<small> |
                                                         <span><i>Hosted by : ${event.username}</i></span></small><br>
                                                         ${event.title}
-                                                        <a href="" class="pull_right js-meeting-edit">
+                                                        <a href="/booking/${event.id}/edit" class="pull_right js-meeting-edit">
                                                             <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
                                                         </a>
                                                     </div>

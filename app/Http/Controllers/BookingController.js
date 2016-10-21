@@ -30,7 +30,7 @@ class BookingController {
 
       const meetings = yield Database
                         .table('meetings')
-                        .select('users.username', 'meetings.id', 'meetings.user_id', 'meetings.room_id', 'meetings.date', 'meetings.title')
+                        .select('users.username', 'meetings.id', 'meetings.user_id', 'meetings.room_id', 'meetings.date', 'meetings.start_time', 'meetings.end_time', 'meetings.title')
                         .innerJoin('users', 'meetings.user_id', 'users.id')
                         .where('room_id', roomId)
                         .orderBy('date', 'ASC')
@@ -48,6 +48,9 @@ class BookingController {
       meeting.room_id = meetingData.room_id
       meeting.date = meetingData.date
       meeting.title = meetingData.title
+      meeting.description = meetingData.description
+      meeting.start_time = moment(meetingData.start_time, "hmm").format("HH:mm:ss")
+      meeting.end_time = moment(meetingData.end_time, "hmm").format("HH:mm:ss")
 
       yield user.meetings().save(meeting)
 
