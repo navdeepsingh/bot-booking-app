@@ -41,8 +41,8 @@ Factory.blueprint('App/Model/Meeting', (fake) => {
   return {
     room_id : '1',
     date: moment(Date.now()).format('YYYY-MM-DD'),
-    start_time : '1000',
-    end_time : '1200',
+    start_time : '10:00:00',
+    end_time : '12:00:00',
     title: fake.sentence({words: 3}),
     description: fake.sentence({words: 5})
   }

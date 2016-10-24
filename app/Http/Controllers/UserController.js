@@ -33,7 +33,8 @@ class UserController {
       formAction : `/users/${id}`,
       formTitle : 'Edit',
       btnTitle : 'Update',
-      changePassword : false
+      changePassword : false,
+      newUser : false
     }
     yield response.sendView('register', formVars)
   }

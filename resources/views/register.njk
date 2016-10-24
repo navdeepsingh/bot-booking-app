@@ -34,17 +34,19 @@
                             </div>
                         </div>
 
-                        <div class="form-group" id="test">
-                            <label class="col-md-4 control-label">Change Password</label>
+                        {% if newUser == false %}
+                            <div class="form-group" id="test">
+                                <label class="col-md-4 control-label">Change Password</label>
 
-                            <div class="col-md-6">
-                                <div class="checkbox">
-                                    <label>
-                                        <input id="changePassword" type="checkbox" name="changePassword" value="1"> Yes
-                                    </label>
+                                <div class="col-md-6">
+                                    <div class="checkbox">
+                                        <label>
+                                            <input id="changePassword" type="checkbox" name="changePassword" value="1"> Yes
+                                        </label>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
+                        {% endif %}
 
 
                         <div class="form-group" {% if changePassword == false %} style="display:none" {% endif %}>

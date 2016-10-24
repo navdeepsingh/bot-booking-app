@@ -12,7 +12,8 @@ class RegisterController {
         formMethod : 'POST',
         formAction : '/register',
         formTitle : 'Add new user',
-        btnTitle : 'Submit'
+        btnTitle : 'Submit',
+        newUser : true
       }
       yield response.sendView('register', formVars )
     }

@@ -72,18 +72,21 @@ $(document).ready(() => {
                               $('form').attr('action','/booking')
                               $('.alert-warning').remove()
 
-                              // In case of already exist event, treat as Edit Form
                               if (target.events.length > 0) {
                                 let eventsAll = ''
                                 $('.event-item', '.event-listing').remove()
-                                $('.event-listing-title', '.event-listing').text(`EVENTS ON ${moment(date).format('ll')}`)
+                                $('.event-listing-title', '.event-listing').text(`BOOKINGS ON ${moment(date).format('ll')}`)
                                 _.each(target.events, function(event){
                                     $('form').attr('action',`/booking/${event.id}`)
                                     $('input[name=title]').val(event.title)
                                     eventsAll += `<div class="event-item">
                                                     <div class="event-item-name">
-                                                        ${moment(event.date).format('ll')} from ${moment(event.start_time, 'hh:mm:ss').format("HH:mm a")} to ${moment(event.end_time, 'hh:mm:ss').format("HH:mm a")}<small> |
-                                                        <span><i>Hosted by : ${event.username}</i></span></small><br>
+                                                        ${moment(event.date).format('ll')} from ${moment(event.start_time, 'hh:mm:ss').format("HH:mm a")} to ${moment(event.end_time, 'hh:mm:ss').format("HH:mm a")}<br>
+                                                        <small>
+                                                            <span>
+                                                                <i>Hosted by : ${event.username}</i>
+                                                            </span>
+                                                        </small><br>
                                                         ${event.title}
                                                         <a href="/booking/${event.id}/edit" class="pull_right js-meeting-edit">
                                                             <span class="glyphicon glyphicon-pencil" aria-hidden="true"></span>
@@ -91,6 +94,10 @@ $(document).ready(() => {
                                                     </div>
                                                 </div>`
                                 })
+                                eventsAll += `<div class="event-item">
+                                                <a class="btn btn-primary"href="/booking">Add New Booking</a>
+                                              </div>`
+
                                 $('.event-listing').append(eventsAll)
                                  /*$('.selectionRoom').show()
                                  $('.modal-title').html(`${selectedDate} : Edit`)
@@ -103,8 +110,6 @@ $(document).ready(() => {
                               } else {
                                 $('#bookingModal').modal('show')
                               }
-
-
                             },
                             onMonthChange: function(month) {
                               console.log('you just went to ' + month.format('MMMM, YYYY'));
@@ -160,12 +165,5 @@ $(document).ready(() => {
             passwordElem.removeAttr('required')
         }
     })
-
-    $('.event-listing').on('click', 'a', function(e){
-        return false
-    })
-
-
-
 
 })
